@@ -96,5 +96,3 @@ A minimum UGB of **≥100 MHz** is required for optimal performance.
 The simulation results confirm that the designed fourth-order Tow–Thomas low-pass filter meets all target specifications. The methodology effectively bridges MATLAB-based analytical design with Xschem circuit verification, providing a reliable foundation for transistor-level implementation and further optimization.
 
 ---
-
-## 📂 Repository Structure
