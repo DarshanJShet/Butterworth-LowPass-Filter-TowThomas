@@ -14,50 +14,45 @@ This project presents the design, analysis, and simulation of a **4th-order acti
 | Passband Gain | 0 to 0.5 dB |
 | Cutoff Frequency (fc) | 50 kHz |
 | Op-Amp Gain | 20 dB to 80 dB (varied) |
-| Op-Amp Unity-Gain Bandwidth (UGB) | 20 MHz – 400 MHz |
-| Simulation Tools | MATLAB, Xschem (Skywater 130nm PDK) |
+| Op-Amp Unity-Gain Bandwidth (UGB) | 20 MHz – 400 MHz (varied) |
+| Simulation Tools | MATLAB, Xschem (Skywater 130nm PDK),Ngspice |
 
 ---
 
 ## 🧮 Methodology
 
-The design and analysis process was carried out in two major phases — **MATLAB-based system-level verification** and **Xschem circuit-level implementation** using the Skywater PDK. The workflow followed a top-down design approach to ensure theoretical accuracy and practical feasibility.
+The design and analysis process was carried out in two major phases — **MATLAB-based system-level verification** and **Xschem circuit-level implementation** using the Skywater PDK.
 
 ### 1️⃣ MATLAB Design and Pre-Simulation
-- Implemented the **Tow–Thomas biquad topology** mathematically to derive the transfer function.
-- Designed a **4th-order Butterworth response** by cascading two second-order biquads.
-- Generated **Bode magnitude, phase**, and **pole-zero plots** to validate theoretical performance.
-- Computed precise **resistor and capacitor values (R, C)** to meet the target cutoff frequency (50 kHz).
+- Implemented the 4th order Butterworth filter in MATLAB and obtained the transfer function along with the poles and zeros.
+- Using the poles and zeros, split the transfer function into 2 biquads.
+- Plotted the gain and phase plot for both biquads along with the gain and phase of the whole transfer function.
 
 ### 2️⃣ Xschem Circuit-Level Realization
-- Modeled the **operational amplifier** using an ideal **voltage-controlled voltage source (VCVS)** with adjustable gain and bandwidth.
-- Implemented the **Tow–Thomas filter** using MATLAB-derived component values.
-- Simulated the design in **Xschem** under different op-amp gains and **unity-gain bandwidths (UGB)** to study non-ideal effects.
+- Chose the Tow–Thomas filter topology for filter implementation.
+- Using the given formulas, found the values of resistors and capacitors.
+- Implemented the filter using an ideal op-amp and the obtained resistor and capacitor values.
+- Calculated the deviation each op-amp output magnitude has from 0 dB and converted it to volts.
+- The value obtained is the scaling factor for that op-amp. Then the resistances and capacitances connected to that output need to be scaled: divide the resistances by the scaling factor and multiply the capacitances by the scaling factor.
 
 ### 3️⃣ Performance Evaluation
 - Compared MATLAB and Xschem frequency responses to ensure design consistency.
-- Analyzed how finite op-amp gain and bandwidth impact **cutoff frequency**, **stability**, and **passband flatness**.
-- Determined minimum gain and bandwidth values required for the circuit to meet its Butterworth specifications.
-
----
-
-This structured methodology bridges **theoretical filter design** with **practical circuit implementation**, ensuring accuracy before proceeding to transistor-level realization.
-
+- Analyzed how finite op-amp gain and bandwidth impact passband gain and cutoff frequency.
+- Determined the minimum gain and bandwidth values required for the circuit to meet its Butterworth specifications.
 ---
 
 ## 📊 Results and Analysis
 
-Comprehensive simulations were performed in **MATLAB** and **Xschem** to validate the designed fourth-order Butterworth low-pass filter. The results demonstrate strong agreement between system-level and circuit-level responses.
+Simulations were performed in **MATLAB** and **Xschem** to validate the designed fourth-order Butterworth low-pass filter. The results demonstrate strong agreement between system-level and circuit-level responses.
 
 ### 🔹 1️⃣ MATLAB Simulation Results
 - The MATLAB-based analysis generated **Bode magnitude and phase plots**, confirming a smooth Butterworth response with:
-  - Passband ripple ≤ 0.5 dB  
+  - Passband ripple < 0.5 dB  
   - Cutoff frequency (**fc**) ≈ 50 kHz  
-  - Stopband attenuation < −40 dB at 80 kHz  
-- Pole–zero plots verified system stability and proper pole placement for a maximally flat passband.
+- Pole–zero plots verified that system is stability.
 
 ### 🔹 2️⃣ Xschem Simulation Results
-The filter was implemented and simulated in Xschem using ideal op-amp models (VCVS) based on the Skywater PDK.  
+The filter was implemented and simulated in Xschem using ideal op-amp.  
 Two key non-ideal parameters — **op-amp gain** and **unity-gain bandwidth (UGB)** — were varied to analyze their impact.
 
 #### Effect of Op-Amp Gain
@@ -81,18 +76,18 @@ Two key non-ideal parameters — **op-amp gain** and **unity-gain bandwidth (UGB
 | 400 | 50.2 |
 
 ➡️ Higher UGB ensures accurate cutoff frequency and Butterworth response.  
-A minimum UGB of **≥100 MHz** is required for optimal performance.
+A minimum UGB is required for optimal performance.
 
 ---
 
 ### 🔹 3️⃣ Observations
 - MATLAB and Xschem results exhibit excellent correlation, validating the correctness of component selection and topology.  
-- Finite op-amp gain and limited bandwidth cause a **shift in cutoff frequency** and **distortion in the passband**.  
-- With **80 dB gain** and **200 MHz UGB**, the circuit achieves ideal Butterworth characteristics, confirming robust design stability.
+- Finite op-amp gain and limited bandwidth cause a **shift in cutoff frequency**.  
+- With **80 dB gain** and **400 MHz UGB**, the circuit achieves ideal Butterworth characteristics, confirming robust design stability.
 
 ---
 
 **Conclusion:**  
-The simulation results confirm that the designed fourth-order Tow–Thomas low-pass filter meets all target specifications. The methodology effectively bridges MATLAB-based analytical design with Xschem circuit verification, providing a reliable foundation for transistor-level implementation and further optimization.
+The simulation results confirm that the designed fourth-order Tow–Thomas low-pass filter meets all target specifications.
 
 ---
